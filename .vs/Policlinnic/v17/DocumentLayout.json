@@ -1,0 +1,143 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Policlinnic\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6B31FDED-8256-4DEF-B5B6-D2A8D5055A63}|Policlinnic.BLL\\Policlinnic.BLL.csproj|c:\\policlinnic\\policlinnic.bll\\services\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B31FDED-8256-4DEF-B5B6-D2A8D5055A63}|Policlinnic.BLL\\Policlinnic.BLL.csproj|solutionrelative:policlinnic.bll\\services\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B31FDED-8256-4DEF-B5B6-D2A8D5055A63}|Policlinnic.BLL\\Policlinnic.BLL.csproj|c:\\policlinnic\\policlinnic.bll\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B31FDED-8256-4DEF-B5B6-D2A8D5055A63}|Policlinnic.BLL\\Policlinnic.BLL.csproj|solutionrelative:policlinnic.bll\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|c:\\policlinnic\\policlinnic.dal\\repositories\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|solutionrelative:policlinnic.dal\\repositories\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|c:\\policlinnic\\policlinnic.dal\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|solutionrelative:policlinnic.dal\\repositories\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|c:\\policlinnic\\policlinnic.dal\\policlinnic.dal.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|solutionrelative:policlinnic.dal\\policlinnic.dal.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FF4958C8-0C26-423B-B883-244A089E3F22}|Policlinnic.Domain\\Policlinnic.Domain.csproj|c:\\policlinnic\\policlinnic.domain\\policlinnic.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{FF4958C8-0C26-423B-B883-244A089E3F22}|Policlinnic.Domain\\Policlinnic.Domain.csproj|solutionrelative:policlinnic.domain\\policlinnic.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|c:\\policlinnic\\policlinnic.dal\\repositories\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2519AC94-5E05-43E4-B679-C365D623E49D}|Policlinnic.DAL\\Policlinnic.DAL.csproj|solutionrelative:policlinnic.dal\\repositories\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DoctorService.cs",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.BLL\\Services\\DoctorService.cs",
+              "RelativeDocumentMoniker": "Policlinnic.BLL\\Services\\DoctorService.cs",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.BLL\\Services\\DoctorService.cs",
+              "RelativeToolTip": "Policlinnic.BLL\\Services\\DoctorService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T23:06:11.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BaseRepository.cs",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.DAL\\Repositories\\BaseRepository.cs",
+              "RelativeDocumentMoniker": "Policlinnic.DAL\\Repositories\\BaseRepository.cs",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.DAL\\Repositories\\BaseRepository.cs",
+              "RelativeToolTip": "Policlinnic.DAL\\Repositories\\BaseRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T23:08:30.313Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppointmentRepository.cs",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.DAL\\Repositories\\AppointmentRepository.cs",
+              "RelativeDocumentMoniker": "Policlinnic.DAL\\Repositories\\AppointmentRepository.cs",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.DAL\\Repositories\\AppointmentRepository.cs",
+              "RelativeToolTip": "Policlinnic.DAL\\Repositories\\AppointmentRepository.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T23:08:24.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PatientRepository.cs",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.DAL\\Repositories\\PatientRepository.cs",
+              "RelativeDocumentMoniker": "Policlinnic.DAL\\Repositories\\PatientRepository.cs",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.DAL\\Repositories\\PatientRepository.cs",
+              "RelativeToolTip": "Policlinnic.DAL\\Repositories\\PatientRepository.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T23:03:57.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppointmentService.cs",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.BLL\\Services\\AppointmentService.cs",
+              "RelativeDocumentMoniker": "Policlinnic.BLL\\Services\\AppointmentService.cs",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.BLL\\Services\\AppointmentService.cs",
+              "RelativeToolTip": "Policlinnic.BLL\\Services\\AppointmentService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T23:03:26.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Policlinnic.Domain",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.Domain\\Policlinnic.Domain.csproj",
+              "RelativeDocumentMoniker": "Policlinnic.Domain\\Policlinnic.Domain.csproj",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.Domain\\Policlinnic.Domain.csproj",
+              "RelativeToolTip": "Policlinnic.Domain\\Policlinnic.Domain.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-26T23:00:58.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Policlinnic.DAL",
+              "DocumentMoniker": "C:\\Policlinnic\\Policlinnic.DAL\\Policlinnic.DAL.csproj",
+              "RelativeDocumentMoniker": "Policlinnic.DAL\\Policlinnic.DAL.csproj",
+              "ToolTip": "C:\\Policlinnic\\Policlinnic.DAL\\Policlinnic.DAL.csproj",
+              "RelativeToolTip": "Policlinnic.DAL\\Policlinnic.DAL.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-26T23:00:25.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+C:\Stydy\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.csproj.AssemblyReference.cache
+C:\Stydy\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Stydy\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.AssemblyInfoInputs.cache
+C:\Stydy\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.AssemblyInfo.cs
+C:\Stydy\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.csproj.CoreCompileInputs.cache
+C:\Policlinnic\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.csproj.AssemblyReference.cache
+C:\Policlinnic\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Policlinnic\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.AssemblyInfoInputs.cache
+C:\Policlinnic\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.AssemblyInfo.cs
+C:\Policlinnic\Policlinnic.BLL\obj\Debug\net8.0\Policlinnic.BLL.csproj.CoreCompileInputs.cache
