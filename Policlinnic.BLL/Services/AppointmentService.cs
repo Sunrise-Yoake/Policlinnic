@@ -13,16 +13,16 @@ namespace Policlinnic.BLL.Services
             _appointmentRepository = new AppointmentRepository();
         }
 
-        // Получение только свободных приёмов (Критерий 7.6)
+        // Получение только свободных приёмов 
         public IEnumerable<Appointment> GetAvailableSlots()
         {
             return _appointmentRepository.GetFreeAppointments();
         }
 
-        // Логика записи (Критерий 9.8)
+        // Логика записи
         public bool MakeAppointment(int appointmentId, int patientId)
         {
-            // Бизнес-проверка: ID пациента должен быть положительным (Критерий 6.3)
+            // Бизнес-проверка: ID пациента должен быть положительным 
             if (patientId <= 0) return false;
 
             return _appointmentRepository.BookAppointment(appointmentId, patientId);

@@ -15,7 +15,7 @@ namespace Policlinnic.BLL.Services
 
         public IEnumerable<Doctor> GetAllDoctors()
         {
-            // Здесь можно добавить сортировку по ФИО (Критерий 3.3)
+            // Здесь можно добавить сортировку по ФИО 
             return _doctorRepository.GetAll();
         }
     }

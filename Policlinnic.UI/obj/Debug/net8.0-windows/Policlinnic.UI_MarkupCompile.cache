@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Policlinnic\Policlinnic.UI\App.xaml
-6-75193196
+5-327100002
 
-9-984341749
-20060888996
-Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\Pages\AdminPage.xaml;Views\Pages\DoctorPage.xaml;Views\Pages\PatientPage.xaml;Views\Pages\ppointmentPage.xaml;
+8-20354601
+220-1214194543
+Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\Pages\AdminPage.xaml;Views\Pages\DoctorPage.xaml;Views\Pages\PatientPage.xaml;
 
-True
+False
 

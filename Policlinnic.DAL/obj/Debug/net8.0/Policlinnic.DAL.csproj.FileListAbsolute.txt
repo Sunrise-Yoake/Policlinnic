@@ -18,3 +18,4 @@ C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.dll
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\refint\Policlinnic.DAL.dll
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.pdb
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\ref\Policlinnic.DAL.dll
+C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.sourcelink.json

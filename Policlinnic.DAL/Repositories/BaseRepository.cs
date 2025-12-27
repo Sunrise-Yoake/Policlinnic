@@ -4,8 +4,7 @@ namespace Policlinnic.DAL.Repositories
 {
     public abstract class BaseRepository
     {
-        protected readonly string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Policlinnic;Integrated Security=True;";
-
+        protected readonly string _connectionString = @"Data Source=YOAKE\SQLEXPRESS;Initial Catalog=Policlinnic;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;";
         protected SqlConnection GetConnection()
         {
             return new SqlConnection(_connectionString);

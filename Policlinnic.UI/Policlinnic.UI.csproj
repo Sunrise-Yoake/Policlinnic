@@ -12,9 +12,9 @@
     <Folder Include="ViewModel\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Policlinnic.BLL\Policlinnic.BLL.csproj" />
-    <ProjectReference Include="..\Policlinnic.Domain\Policlinnic.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Policlinnic.Domain\Policlinnic.Domain.csproj" />
+		<ProjectReference Include="..\Policlinnic.BLL\Policlinnic.BLL.csproj" />
+	</ItemGroup>
 
 </Project>

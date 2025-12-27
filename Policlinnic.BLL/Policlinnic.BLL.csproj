@@ -6,8 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Policlinnic.Domain\Policlinnic.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Policlinnic.Domain\Policlinnic.Domain.csproj" />
+		<ProjectReference Include="..\Policlinnic.DAL\Policlinnic.DAL.csproj" />
+	</ItemGroup>
 
 </Project>
