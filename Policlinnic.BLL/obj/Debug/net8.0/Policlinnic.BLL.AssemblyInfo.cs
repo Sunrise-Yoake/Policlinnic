@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Policlinnic.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9901ccbe593943ec7e6fe443d6898675548dad42")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2b0304d3183aadf4ecde65e925a623918eca89e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Policlinnic.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Policlinnic.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

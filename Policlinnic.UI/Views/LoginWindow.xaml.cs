@@ -56,7 +56,7 @@ namespace Policlinnic.UI.Views
                 if (user != null)
                 {
                     // УСПЕХ! Открываем главное окно
-                    MainWindow mainWindow = new MainWindow();
+                    MainWindow mainWindow = new MainWindow(user);
 
                     // Настраиваем вид в зависимости от роли
                     ConfigureWindowForRole(mainWindow, user.IDRole);

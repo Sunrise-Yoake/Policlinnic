@@ -10,7 +10,7 @@ namespace Policlinnic.DAL.Repositories
         {
             User user = null;
 
-            string sql = "SELECT Код, Логин, Пароль, КодРоли FROM Пользователи WHERE Логин = @Login";
+            string sql = "SELECT Код, Логин, Пароль, КодРоли FROM Пользователь WHERE Логин = @Login";
 
             // ИСПОЛЬЗУЕМ ТВОЙ МЕТОД GetConnection() из BaseRepository
             using (SqlConnection conn = GetConnection())
