@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Policlinnic.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2b0304d3183aadf4ecde65e925a623918eca89e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3b27687c8ada326d255aee98421f668d7d68d7f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Policlinnic.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Policlinnic.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

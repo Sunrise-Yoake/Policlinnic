@@ -4,15 +4,15 @@ using System.Data;
 
 namespace Policlinnic.DAL.Repositories
 {
-    public class UserRepository : BaseRepository // Наследуемся
+    public class UserRepository : BaseRepository
     {
         public User GetUserByLogin(string login)
         {
             User user = null;
 
-            string sql = "SELECT Код, Логин, Пароль, КодРоли FROM Пользователь WHERE Логин = @Login";
+            // Добавляем Телефон в SELECT
+            string sql = "SELECT Код, Логин, Пароль, КодРоли, Телефон FROM Пользователь WHERE Логин = @Login";
 
-            // ИСПОЛЬЗУЕМ ТВОЙ МЕТОД GetConnection() из BaseRepository
             using (SqlConnection conn = GetConnection())
             {
                 conn.Open();
@@ -29,7 +29,8 @@ namespace Policlinnic.DAL.Repositories
                                 Id = (int)reader["Код"],
                                 Login = (string)reader["Логин"],
                                 Password = (string)reader["Пароль"],
-                                IDRole = (int)reader["КодРоли"]
+                                IDRole = (int)reader["КодРоли"],
+                                Phone = reader["Телефон"] as string
                             };
                         }
                     }
