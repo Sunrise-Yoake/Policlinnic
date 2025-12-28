@@ -13,9 +13,9 @@ C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.GeneratedMSBuild
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.AssemblyInfoInputs.cache
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.AssemblyInfo.cs
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.csproj.CoreCompileInputs.cache
+C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.sourcelink.json
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlin.87E6D7F1.Up2Date
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.dll
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\refint\Policlinnic.DAL.dll
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.pdb
 C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\ref\Policlinnic.DAL.dll
-C:\Policlinnic\Policlinnic.DAL\obj\Debug\net8.0\Policlinnic.DAL.sourcelink.json

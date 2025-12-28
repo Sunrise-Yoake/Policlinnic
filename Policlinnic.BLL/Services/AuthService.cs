@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Policlinnic.DAL.Repositories;
+﻿using Policlinnic.DAL.Repositories;
 using Policlinnic.Domain.Entities;
 
 namespace Policlinnic.BLL.Services
@@ -20,30 +18,14 @@ namespace Policlinnic.BLL.Services
 
             if (user == null) return null;
 
-            // Хешируем введенный пароль
-            string inputHash = HashPassword(password);
+            string inputHash = PasswordHasher.Hash(password);
 
-            // Сравниваем хеши
             if (user.Password == inputHash)
             {
                 return user;
             }
 
             return null;
-        }
-
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                var builder = new StringBuilder();
-                foreach (var t in bytes)
-                {
-                    builder.Append(t.ToString("x2"));
-                }
-                return builder.ToString();
-            }
         }
     }
 }

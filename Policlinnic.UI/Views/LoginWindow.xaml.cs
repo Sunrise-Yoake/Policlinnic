@@ -14,11 +14,9 @@ namespace Policlinnic.UI.Views
         public LoginWindow()
         {
             InitializeComponent();
-            // Инициализируем сервис, который умеет общаться с БД и хешировать пароли
             _authService = new AuthService();
         }
 
-        // 1. Логика перетаскивания окна (так как WindowStyle="None")
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
@@ -50,12 +48,10 @@ namespace Policlinnic.UI.Views
 
             try
             {
-                // Вызываем наш BLL сервис. Он пойдет в БД, возьмет хеш и сравнит.
                 User user = _authService.Login(login, password);
 
                 if (user != null)
                 {
-                    // УСПЕХ! Открываем главное окно
                     MainWindow mainWindow = new MainWindow(user);
 
                     // Настраиваем вид в зависимости от роли
@@ -73,7 +69,6 @@ namespace Policlinnic.UI.Views
             }
             catch (System.Exception ex)
             {
-                // Если база недоступна или упала ошибка подключения
                 MessageBox.Show($"Ошибка подключения к базе данных:\n{ex.Message}", "Критическая ошибка",
                                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -85,13 +80,13 @@ namespace Policlinnic.UI.Views
             switch (roleId)
             {
                 case 1: // Админ
-                    window.MainFrame.Navigate(new AdminPage());
+                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.UsersPage());
                     break;
                 case 2: // Врач
                     window.MainFrame.Navigate(new DoctorPage());
                     break;
                 case 3: // Пациент
-                    window.MainFrame.Navigate(new PatientPage());
+                    //window.MainFrame.Navigate(new PatientPage());
                     break;
                 default:
                     MessageBox.Show("Роль пользователя не определена системой.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -27,8 +27,8 @@ C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.GeneratedM
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.AssemblyInfoInputs.cache
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.AssemblyInfo.cs
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.csproj.CoreCompileInputs.cache
+C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.sourcelink.json
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.dll
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\refint\Policlinnic.Domain.dll
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.pdb
 C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\ref\Policlinnic.Domain.dll
-C:\Policlinnic\Policlinnic.Domain\obj\Debug\net8.0\Policlinnic.Domain.sourcelink.json

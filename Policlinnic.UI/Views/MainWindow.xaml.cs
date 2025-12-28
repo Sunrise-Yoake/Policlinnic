@@ -17,16 +17,14 @@ namespace Policlinnic.UI
             InitializeComponent();
             _currentUser = user;
 
-            // 2. Создаем экземпляр репозитория
             _adminRepository = new AdminRepository();
 
-            InitUserInterface();     // Загружаем данные (ФИО и роль)
-            ApplyAccessControl();    // Настраиваем видимость кнопок
+            InitUserInterface();
+            ApplyAccessControl();
         }
 
         private void InitUserInterface()
         {
-            // По умолчанию ставим Логин (на случай, если не найдем данные в доп. таблицах)
             TxtUserLogin.Text = _currentUser.Login;
 
             // 3. Логика для АДМИНИСТРАТОРА (IDRole = 1)
@@ -82,10 +80,10 @@ namespace Policlinnic.UI
             // 1. АДМИНИСТРАТОР
             if (_currentUser.IDRole == 1)
             {
-                // Видит всё, открываем Пользователей
                 RbUsers.IsChecked = true;
                 TxtPageTitle.Text = "Пользователи";
-                // MainFrame.Navigate(new UsersPage()); 
+                RbPatients.Visibility = Visibility.Collapsed;
+                MainFrame.Navigate(new UsersPage()); 
             }
             // 2. ВРАЧ
             else if (_currentUser.IDRole == 2)
@@ -138,7 +136,7 @@ namespace Policlinnic.UI
                 switch (rb.Name)
                 {
                     case "RbUsers":
-                        // MainFrame.Navigate(new UsersPage());
+                        MainFrame.Navigate(new UsersPage());
                         break;
                     case "RbPatients":
                         // MainFrame.Navigate(new PatientsPage());
