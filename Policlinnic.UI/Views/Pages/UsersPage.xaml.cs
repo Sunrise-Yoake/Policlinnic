@@ -50,17 +50,34 @@ namespace Policlinnic.UI.Views.Pages
 
             var filtered = _allUsers.AsEnumerable();
 
-            // Поиск
-            string searchText = TxtSearch.Text.ToLower().Trim();
-            if (!string.IsNullOrEmpty(searchText))
+            string rawSearchText = TxtSearch.Text.ToLower().Trim();
+
+            if (!string.IsNullOrEmpty(rawSearchText))
             {
-                filtered = filtered.Where(u =>
-                    u.FIO.ToLower().Contains(searchText) ||
-                    u.Login.ToLower().Contains(searchText) ||
-                    (u.Phone != null && u.Phone.Contains(searchText)));
+                string[] searchTerms = rawSearchText.Split(new char[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                filtered = filtered.Where(user =>
+                {
+                    bool matchAllTerms = true;
+
+                    foreach (var term in searchTerms)
+                    {
+                        bool foundInFIO = user.FIO != null && user.FIO.ToLower().Contains(term);
+                        bool foundInLogin = user.Login != null && user.Login.ToLower().Contains(term);
+                        bool foundInPhone = user.Phone != null && user.Phone.ToLower().Contains(term);
+
+                        if (!foundInFIO && !foundInLogin && !foundInPhone)
+                        {
+                            matchAllTerms = false;
+                            break;
+                        }
+                    }
+
+                    return matchAllTerms;
+                });
             }
 
-            // Фильтр по роли
+            // 2. Фильтр по РОЛИ
             if (CmbRoleFilter.SelectedItem is ComboBoxItem selectedItem)
             {
                 string role = selectedItem.Content.ToString();

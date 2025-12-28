@@ -84,7 +84,6 @@
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
                         <RadioButton x:Name="RbUsers" Content="Пользователи" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
-                        <RadioButton x:Name="RbPatients" Content="Пациенты" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
 
                         <Separator Style="{StaticResource MenuSeparatorStyle}"/>
 

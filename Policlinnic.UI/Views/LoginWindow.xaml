@@ -4,8 +4,8 @@
         Title="Вход в систему" Height="480" Width="380"
         WindowStartupLocation="CenterScreen" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown">
-
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        FocusManager.FocusedElement="{Binding ElementName=LoginBox}">
     <Border Background="White" CornerRadius="15" BorderBrush="#2E7D32" BorderThickness="2">
         <Grid>
             <Grid.RowDefinitions>
@@ -35,9 +35,11 @@
                 <TextBlock Text="Пароль" Foreground="#757575" Margin="0,0,0,5"/>
                 <PasswordBox x:Name="PassBox" Height="40" VerticalContentAlignment="Center" Padding="10,0" Margin="0,0,0,30"/>
 
-                <Button Content="ВХОД" Height="50" Background="#2E7D32" Foreground="White" FontWeight="Bold" FontSize="16" Click="LoginButton_Click">
+                <Button Content="ВХОД" Height="50" Background="#2E7D32" Foreground="White" FontWeight="Bold" FontSize="16" Click="LoginButton_Click" IsDefault="True">
                     <Button.Resources>
-                        <Style TargetType="Border"><Setter Property="CornerRadius" Value="25"/></Style>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="25"/>
+                        </Style>
                     </Button.Resources>
                 </Button>
             </StackPanel>

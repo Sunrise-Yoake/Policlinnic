@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Policlinnic.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a62889bf5266dabb6ce7821114caa277e1097fe4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc368f3d0fdb49d5ec8258f958270d0f4a1e3586")]
 [assembly: System.Reflection.AssemblyProductAttribute("Policlinnic.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Policlinnic.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

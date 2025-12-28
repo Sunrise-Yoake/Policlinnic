@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Policlinnic.Domain.Entities;
-using Policlinnic.DAL.Repositories; // Подключаем пространство имен репозиториев
+using Policlinnic.DAL.Repositories;
 using Policlinnic.UI.Views;
 using Policlinnic.UI.Views.Pages;
 
@@ -10,7 +10,7 @@ namespace Policlinnic.UI
     public partial class MainWindow : Window
     {
         private readonly User _currentUser;
-        private readonly AdminRepository _adminRepository; // 1. Объявляем переменную репозитория
+        private readonly AdminRepository _adminRepository;
 
         public MainWindow(User user)
         {
@@ -27,46 +27,31 @@ namespace Policlinnic.UI
         {
             TxtUserLogin.Text = _currentUser.Login;
 
-            // 3. Логика для АДМИНИСТРАТОРА (IDRole = 1)
+            // 1. АДМИНИСТРАТОР
             if (_currentUser.IDRole == 1)
             {
                 TxtRoleName.Text = "Администратор системы";
-
-                // Идем в базу за подробностями (ищем по ID пользователя)
                 Admin adminDetails = _adminRepository.GetAdminById(_currentUser.Id);
 
                 if (adminDetails != null)
                 {
-                    // БЕРЕМ ТОЛЬКО ПЕРВЫЕ ДВА СЛОВА (Фамилия и Имя)
-                    string fullName = adminDetails.FullName; // "Караханова Ксения Сеттаровна"
-                    var parts = fullName.Split(' '); // Разбиваем по пробелам в массив
-
+                    string fullName = adminDetails.FullName;
+                    var parts = fullName.Split(' ');
                     if (parts.Length >= 2)
-                    {
-                        // Собираем обратно только первые две части
                         TxtUserLogin.Text = $"{parts[0]} {parts[1]}";
-                    }
                     else
-                    {
-                        // Если вдруг имя короткое (только одно слово), выводим как есть
                         TxtUserLogin.Text = fullName;
-                    }
                 }
             }
-            // 4. Логика для ВРАЧА (IDRole = 2)
+            // 2. ВРАЧ
             else if (_currentUser.IDRole == 2)
             {
                 TxtRoleName.Text = "Врач";
-                // В будущем здесь будет:
-                // DoctorRepository docRepo = new DoctorRepository();
-                // var doc = docRepo.GetDoctorById(_currentUser.Id);
-                // if (doc != null) TxtUserLogin.Text = doc.FullName;
             }
-            // 5. Логика для ПАЦИЕНТА (IDRole = 3)
+            // 3. ПАЦИЕНТ
             else if (_currentUser.IDRole == 3)
             {
                 TxtRoleName.Text = "Пациент";
-                // Аналогично для пациента
             }
             else
             {
@@ -82,13 +67,13 @@ namespace Policlinnic.UI
             {
                 RbUsers.IsChecked = true;
                 TxtPageTitle.Text = "Пользователи";
-                RbPatients.Visibility = Visibility.Collapsed;
-                MainFrame.Navigate(new UsersPage()); 
+                // RbPatients больше нет, скрывать нечего
+                MainFrame.Navigate(new UsersPage());
             }
             // 2. ВРАЧ
             else if (_currentUser.IDRole == 2)
             {
-                // Скрываем лишнее
+                // Скрываем админское
                 RbUsers.Visibility = Visibility.Collapsed;
                 RbArchive.Visibility = Visibility.Collapsed;
                 RbDictionaries.Visibility = Visibility.Collapsed;
@@ -98,16 +83,17 @@ namespace Policlinnic.UI
                 RbSickLeaves.Content = "Выписанные больничные";
                 RbDiagnoses.Content = "Мои диагнозы";
 
-                RbPatients.IsChecked = true;
-                TxtPageTitle.Text = "Пациенты";
-                // MainFrame.Navigate(new PatientsPage());
+                // ТАК КАК "ПАЦИЕНТЫ" УДАЛЕНЫ, СТАВИМ ПО УМОЛЧАНИЮ "ПРИЕМЫ"
+                RbAppointments.IsChecked = true;
+                TxtPageTitle.Text = "Мои приёмы";
+                // MainFrame.Navigate(new AppointmentsPage());
             }
             // 3. ПАЦИЕНТ
             else if (_currentUser.IDRole == 3)
             {
-                // Скрываем админское и врачебное
+                // Скрываем лишнее
                 RbUsers.Visibility = Visibility.Collapsed;
-                RbPatients.Visibility = Visibility.Collapsed;
+                // RbPatients удален
                 RbReports.Visibility = Visibility.Collapsed;
                 RbArchive.Visibility = Visibility.Collapsed;
                 RbStatistics.Visibility = Visibility.Collapsed;
@@ -130,7 +116,6 @@ namespace Policlinnic.UI
         {
             if (sender is RadioButton rb)
             {
-                // Берем заголовок прямо с кнопки (с учетом изменений для врача/пациента)
                 TxtPageTitle.Text = rb.Content.ToString();
 
                 switch (rb.Name)
@@ -138,16 +123,13 @@ namespace Policlinnic.UI
                     case "RbUsers":
                         MainFrame.Navigate(new UsersPage());
                         break;
-                    case "RbPatients":
-                        // MainFrame.Navigate(new PatientsPage());
-                        break;
                     case "RbAppointments":
                         // Логика может отличаться для ролей
                         // if (_currentUser.IDRole == 3) MainFrame.Navigate(new PatientAppointmentsPage(_currentUser.Id));
                         // else MainFrame.Navigate(new AppointmentsPage());
                         break;
                     case "RbSickLeaves":
-                        // MainFrame.Navigate(new SickLeavesPage());
+                        MainFrame.Navigate(new SickLeavesPage(_currentUser));
                         break;
                     case "RbDiagnoses":
                         // MainFrame.Navigate(new DiagnosesPage());

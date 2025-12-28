@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Policlinnic\Policlinnic.UI\App.xaml
-6-1479557077
+71954301629
 
-111630825563
+121437441120
 220-1214194543
-Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\Pages\AdminPage.xaml;Views\Pages\DoctorPage.xaml;Views\Pages\UsersPage.xaml;Views\UserEditWindow.xaml;
+Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\Pages\AdminPage.xaml;Views\Pages\DoctorPage.xaml;Views\Pages\SickLeavesPage.xaml;Views\Pages\UsersPage.xaml;Views\UserEditWindow.xaml;
 
-False
+True
 
