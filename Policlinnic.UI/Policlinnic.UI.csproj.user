@@ -13,13 +13,10 @@
     <Compile Update="Views\LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Pages\AdminPage.xaml.cs">
+    <Compile Update="Views\Pages\AppointmentsPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\DictionariesPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\Pages\DoctorPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Pages\ReportsPage.xaml.cs">
@@ -48,13 +45,10 @@
     <Page Update="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Pages\AdminPage.xaml">
+    <Page Update="Views\Pages\AppointmentsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\DictionariesPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Pages\DoctorPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\ReportsPage.xaml">

@@ -73,21 +73,22 @@ namespace Policlinnic.UI.Views
                                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        // Вспомогательный метод для переключения страниц по ролям
         private void ConfigureWindowForRole(MainWindow window, int roleId)
         {
             switch (roleId)
             {
-                case 1: // Админ
+                case 1: 
                     window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.UsersPage());
                     break;
-                case 2: // Врач
-                    window.MainFrame.Navigate(new DoctorPage());
+
+                case 2:
+                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.AppointmentsPage());
                     break;
-                case 3: // Пациент
-                    //window.MainFrame.Navigate(new PatientPage());
+
+                case 3: 
+                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.AppointmentsPage());
                     break;
+
                 default:
                     MessageBox.Show("Роль пользователя не определена системой.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;

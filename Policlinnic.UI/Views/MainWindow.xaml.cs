@@ -85,13 +85,8 @@ namespace Policlinnic.UI
                 RbReports.Visibility = Visibility.Collapsed;
                 RbDictionaries.Visibility = Visibility.Collapsed; 
 
-                // Меняем названия
-                RbAppointments.Content = "Приёмы";
-                RbSickLeaves.Content = "Больничные";
-
                 RbAppointments.IsChecked = true;
-                TxtPageTitle.Text = "Приёмы";
-                // MainFrame.Navigate(new AppointmentsPage()); // Раскомментировать когда будет готово
+                MainFrame.Navigate(new AppointmentsPage(_currentUser));
             }
             // 3. ПАЦИЕНТ
             else if (_currentUser.IDRole == 3)
@@ -101,7 +96,7 @@ namespace Policlinnic.UI
                 RbReports.Visibility = Visibility.Collapsed;
                 RbArchive.Visibility = Visibility.Collapsed;
                 RbStatistics.Visibility = Visibility.Collapsed;
-                RbDictionaries.Visibility = Visibility.Collapsed; // <-- Справочники пациенту не нужны
+                RbDictionaries.Visibility = Visibility.Collapsed;
 
                 // Меняем названия
                 RbAppointments.Content = "Мои записи";
@@ -110,7 +105,7 @@ namespace Policlinnic.UI
 
                 RbAppointments.IsChecked = true;
                 TxtPageTitle.Text = "Мои записи";
-                // MainFrame.Navigate(new PatientAppointmentsPage(_currentUser.Id)); 
+                MainFrame.Navigate(new AppointmentsPage(_currentUser)); 
             }
         }
 
@@ -132,7 +127,6 @@ namespace Policlinnic.UI
                         break;
 
                     case "RbSickLeaves":
-                        // Переход на страницу больничных (передаем текущего пользователя)
                         MainFrame.Navigate(new SickLeavesPage(_currentUser));
                         break;
                     
@@ -143,6 +137,12 @@ namespace Policlinnic.UI
                     case "RbStatistics":
                         MainFrame.Navigate(new StatisticsPage());
                         break;
+
+                    case "RbAppointments":
+                        // Передаем _currentUser внутрь страницы
+                        MainFrame.Navigate(new AppointmentsPage(_currentUser));
+                        break;
+
                 }
             }
         }
