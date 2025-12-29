@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Policlinnic.DAL.Repositories;
 using Policlinnic.Domain.Entities;
 
@@ -23,24 +25,31 @@ namespace Policlinnic.UI.Views.Pages
 
             SetupRoleAccess();
             LoadFilters();
+
+            // Загружаем данные и сразу применяем сортировку, 
+            // чтобы стрелочка отобразилась корректно (зеленая вниз)
             LoadData();
+
+            this.Loaded += SickLeavesPage_Loaded;
             _isLoaded = true;
+        }
+
+        private void SickLeavesPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (PanelSpecFilter.Visibility == Visibility.Visible)
+                CmbSpec.Focus();
+            else
+                CmbStatus.Focus();
         }
 
         private void SetupRoleAccess()
         {
             if (_currentUser.IDRole == 3) // Пациент
             {
-                // Скрываем кнопки редактирования
                 BtnAdd.Visibility = Visibility.Collapsed;
                 ColActions.Visibility = Visibility.Collapsed;
-
-                // Скрываем колонку "Врач" - пациенту не нужно видеть, кто врач (он и так знает или это есть в деталях)
-                // Или если ты хочешь скрыть, потому что "ненужная колонка по врачам"
-                ColDoctor.Visibility = Visibility.Collapsed;
-
-                // Скрываем фильтр специализации
                 PanelSpecFilter.Visibility = Visibility.Collapsed;
+                // Врач виден пациенту
             }
             else
             {
@@ -72,14 +81,29 @@ namespace Policlinnic.UI.Views.Pages
                 else
                     _allData = _repository.GetAllSickLeaves();
 
-                // Первичная сортировка при загрузке (чтобы было красиво сразу)
-                // Новые (незакрытые) сверху, потом по дате
-                _allData = _allData
-                    .OrderByDescending(x => x.IsOpen)
-                    .ThenByDescending(x => x.RawDateStart)
-                    .ToList();
-
                 ApplyFilters();
+
+                // МАГИЯ СОРТИРОВКИ:
+                // Это заставит DataGrid обновить стрелочки в нашем кастомном заголовке
+                var view = CollectionViewSource.GetDefaultView(GridSickLeaves.ItemsSource);
+                if (view != null)
+                {
+                    view.SortDescriptions.Clear();
+                    // Сначала открытые, потом новые
+                    view.SortDescriptions.Add(new SortDescription("IsOpen", ListSortDirection.Descending));
+                    view.SortDescriptions.Add(new SortDescription("RawDateStart", ListSortDirection.Descending));
+                    view.Refresh();
+
+                    // Насильно говорим колонке, что она отсортирована, чтобы триггер в XAML сработал
+                    foreach (var col in GridSickLeaves.Columns)
+                    {
+                        if (col.SortMemberPath == "RawDateStart") // Колонка "Начало"
+                        {
+                            col.SortDirection = ListSortDirection.Descending;
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -92,80 +116,43 @@ namespace Policlinnic.UI.Views.Pages
             if (_allData == null) return;
             var query = _allData.AsEnumerable();
 
-            // 1. Фильтр Специализации (только если виден)
             if (PanelSpecFilter.Visibility == Visibility.Visible && CmbSpec.SelectedIndex > 0)
             {
                 string selectedSpec = CmbSpec.SelectedItem.ToString();
                 query = query.Where(x => x.SpecName == selectedSpec);
-
-                PanelDoctorFilter.Visibility = Visibility.Visible;
-                UpdateDoctorFilter(query.ToList());
-            }
-            else
-            {
-                PanelDoctorFilter.Visibility = Visibility.Collapsed;
-                CmbDoctor.SelectedIndex = -1;
             }
 
-            // 2. Фильтр Врача
-            if (CmbDoctor.SelectedIndex > 0 && PanelDoctorFilter.Visibility == Visibility.Visible)
-            {
-                string selectedDoc = CmbDoctor.SelectedItem.ToString();
-                query = query.Where(x => x.DoctorFIO == selectedDoc);
-            }
-
-            // 3. Статус
-            if (CmbStatus.SelectedIndex == 1) // Незакрытые
+            if (CmbStatus.SelectedIndex == 1)
                 query = query.Where(x => x.IsOpen);
-            else if (CmbStatus.SelectedIndex == 2) // Закрытые
+            else if (CmbStatus.SelectedIndex == 2)
                 query = query.Where(x => !x.IsOpen);
-
-            // 4. Сортировка - МЫ ЕЕ УБРАЛИ из кода
-            // DataGrid сам справится, так как CanUserSortColumns="True"
 
             GridSickLeaves.ItemsSource = query.ToList();
         }
 
-        private void UpdateDoctorFilter(List<SickLeaveView> filteredBySpec)
-        {
-            string? currentSelection = CmbDoctor.SelectedItem as string;
-
-            var doctors = filteredBySpec
-                .Select(x => x.DoctorFIO)
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Distinct()
-                .OrderBy(x => x)
-                .ToList();
-
-            CmbDoctor.SelectionChanged -= Filters_SelectionChanged;
-
-            CmbDoctor.Items.Clear();
-            CmbDoctor.Items.Add("Все врачи");
-            foreach (var doc in doctors) CmbDoctor.Items.Add(doc);
-
-            if (currentSelection != null && CmbDoctor.Items.Contains(currentSelection))
-                CmbDoctor.SelectedItem = currentSelection;
-            else
-                CmbDoctor.SelectedIndex = 0;
-
-            CmbDoctor.SelectionChanged += Filters_SelectionChanged;
-        }
-
         private void Filters_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isLoaded) ApplyFilters();
+            if (_isLoaded)
+            {
+                ApplyFilters();
+                // Важно: чтобы при фильтрации не слетала сортировка
+                var view = CollectionViewSource.GetDefaultView(GridSickLeaves.ItemsSource);
+                view.SortDescriptions.Clear();
+                view.SortDescriptions.Add(new SortDescription("IsOpen", ListSortDirection.Descending));
+                view.SortDescriptions.Add(new SortDescription("RawDateStart", ListSortDirection.Descending));
+            }
         }
 
-        // Кнопки действий
-        private void BtnAdd_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Добавление"); }
-        private void BtnEdit_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Редактирование"); }
+        private void BtnAdd_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Добавить"); }
+        private void BtnEdit_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Редактировать"); }
+
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext as SickLeaveView;
-            if (item != null && MessageBox.Show("Удалить запись?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (item != null && MessageBox.Show("Удалить?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 _allData.Remove(item);
-                ApplyFilters();
+                Filters_SelectionChanged(null, null);
             }
         }
     }

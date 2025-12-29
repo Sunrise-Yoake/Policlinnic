@@ -6,7 +6,6 @@ using Policlinnic.DAL.Repositories;
 using Policlinnic.Domain.Entities;
 using Policlinnic.BLL.Services;
 
-// ВАЖНО: Пространство имен должно быть Policlinnic.UI.Views (как в x:Class)
 namespace Policlinnic.UI.Views
 {
     public partial class UserEditWindow : Window

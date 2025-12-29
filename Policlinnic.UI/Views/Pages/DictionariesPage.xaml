@@ -1,0 +1,301 @@
+﻿<Page x:Class="Policlinnic.UI.Views.Pages.DictionariesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="Справочники" Background="White" FontFamily="Segoe UI">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="ThemeColor" Color="#2E7D32"/>
+        <SolidColorBrush x:Key="InactiveArrowColor" Color="#B0BEC5"/>
+        <SolidColorBrush x:Key="SelectionGreen" Color="#C8E6C9"/>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F9FAFB"/>
+            <Setter Property="Foreground" Value="#607D8B"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,12"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="#EEEEEE"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="5,0,0,0">
+                                    <TextBlock x:Name="UpArrow" Text="▲" FontSize="8" Foreground="{StaticResource InactiveArrowColor}" Margin="0,0,0,-2"/>
+                                    <TextBlock x:Name="DownArrow" Text="▼" FontSize="8" Foreground="{StaticResource InactiveArrowColor}" Margin="0,-2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="SortDirection" Value="Ascending">
+                                <Setter TargetName="UpArrow" Property="Foreground" Value="{StaticResource ThemeColor}"/>
+                                <Setter TargetName="UpArrow" Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                            <Trigger Property="SortDirection" Value="Descending">
+                                <Setter TargetName="DownArrow" Property="Foreground" Value="{StaticResource ThemeColor}"/>
+                                <Setter TargetName="DownArrow" Property="FontWeight" Value="Bold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SimpleHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F9FAFB"/>
+            <Setter Property="Foreground" Value="#607D8B"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,12"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="#EEEEEE"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="GridActionButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="4,0"/>
+            <Setter Property="IsTabStop" Value="True"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F5F5F5"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E8F5E9"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ThemeColor}"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#EEEEEE"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F1F8E9"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource SelectionGreen}"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="0" Padding="5,0">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource SelectionGreen}"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Background" Value="{StaticResource SelectionGreen}"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="NonFocusableCellStyle" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+
+        <Style x:Key="AddButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ThemeColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="25,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#388E3C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ReportButtonStyle" TargetType="Button" BasedOn="{StaticResource AddButtonStyle}">
+            <Setter Property="Background" Value="#1976D2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2196F3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="20" KeyboardNavigation.TabNavigation="Cycle">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                <TextBlock Text="Выберите справочник" FontSize="12" Foreground="#90A4AE" Margin="0,0,0,4"/>
+
+                <ComboBox x:Name="CmbDictionaryType" Width="220" Height="40" 
+                          VerticalContentAlignment="Center" BorderBrush="#CFD8DC"
+                          SelectionChanged="CmbDictionaryType_SelectionChanged"
+                          TabIndex="0">
+                    <ComboBoxItem Content="Лекарства" IsSelected="True"/>
+                    <ComboBoxItem Content="Болезни"/>
+                    <ComboBoxItem Content="Специализации"/>
+                </ComboBox>
+            </StackPanel>
+
+            <Button x:Name="BtnReport" Grid.Column="2" Content="🖨 Печать отчёта (Excel)" 
+                    Style="{StaticResource ReportButtonStyle}" 
+                    VerticalAlignment="Bottom" Margin="0,0,10,0"
+                    Click="BtnReport_Click"
+                    TabIndex="2"/>
+
+            <Button x:Name="BtnAdd" Grid.Column="3" Content="+ Добавить запись" 
+                    Style="{StaticResource AddButtonStyle}" 
+                    VerticalAlignment="Bottom"
+                    Click="BtnAdd_Click"
+                    TabIndex="3"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+
+            <DataGrid x:Name="GridMedicines" Visibility="Visible"
+                      AutoGenerateColumns="False" IsReadOnly="True" 
+                      CanUserAddRows="False" CanUserSortColumns="True"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#EEEEEE"
+                      Background="White" BorderThickness="1" BorderBrush="#EEEEEE"
+                      RowHeight="45" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
+                      TabIndex="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" 
+                                        CellStyle="{StaticResource NonFocusableCellStyle}"/>
+                    <DataGridTextColumn Header="Зависимость от еды" Binding="{Binding FoodDependency}" Width="*" 
+                                        CellStyle="{StaticResource NonFocusableCellStyle}"/>
+
+                    <DataGridTemplateColumn Width="100" Header="Действия" HeaderStyle="{StaticResource SimpleHeaderStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="✏️" Style="{StaticResource GridActionButton}" Click="BtnEdit_Click"/>
+                                    <Button Content="✕" Style="{StaticResource GridActionButton}" Foreground="Red" Click="BtnDelete_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid x:Name="GridIllnesses" Visibility="Collapsed"
+                      AutoGenerateColumns="False" IsReadOnly="True" 
+                      CanUserAddRows="False" CanUserSortColumns="True"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#EEEEEE"
+                      Background="White" BorderThickness="1" BorderBrush="#EEEEEE"
+                      RowHeight="45" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
+                      TabIndex="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название болезни" Binding="{Binding Name}" Width="*" 
+                                        CellStyle="{StaticResource NonFocusableCellStyle}"/>
+                    <DataGridTextColumn Header="Примечания" Binding="{Binding Notes}" Width="2*" 
+                                        CellStyle="{StaticResource NonFocusableCellStyle}"/>
+
+                    <DataGridTemplateColumn Width="100" Header="Действия" HeaderStyle="{StaticResource SimpleHeaderStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="✏️" Style="{StaticResource GridActionButton}" Click="BtnEdit_Click"/>
+                                    <Button Content="✕" Style="{StaticResource GridActionButton}" Foreground="Red" Click="BtnDelete_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid x:Name="GridSpecs" Visibility="Collapsed"
+                      AutoGenerateColumns="False" IsReadOnly="True" 
+                      CanUserAddRows="False" CanUserSortColumns="True"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#EEEEEE"
+                      Background="White" BorderThickness="1" BorderBrush="#EEEEEE"
+                      RowHeight="45" HeadersVisibility="Column" SelectionMode="Single" SelectionUnit="FullRow"
+                      TabIndex="1">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Специализация" Binding="{Binding Name}" Width="*" 
+                                        CellStyle="{StaticResource NonFocusableCellStyle}"/>
+
+                    <DataGridTemplateColumn Width="100" Header="Действия" HeaderStyle="{StaticResource SimpleHeaderStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="✏️" Style="{StaticResource GridActionButton}" Click="BtnEdit_Click"/>
+                                    <Button Content="✕" Style="{StaticResource GridActionButton}" Foreground="Red" Click="BtnDelete_Click"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+    </Grid>
+</Page>

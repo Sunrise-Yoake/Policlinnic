@@ -24,8 +24,6 @@ namespace Policlinnic.UI.Views.Pages
             // Подписываемся на событие загрузки страницы, чтобы установить фокус
             this.Loaded += UsersPage_Loaded;
         }
-
-        // Требование 3.5: Установка фокуса на первый элемент при открытии
         private void UsersPage_Loaded(object sender, RoutedEventArgs e)
         {
             TxtSearch.Focus();

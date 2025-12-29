@@ -16,7 +16,6 @@ namespace Policlinnic.UI
         {
             InitializeComponent();
             _currentUser = user;
-
             _adminRepository = new AdminRepository();
 
             InitUserInterface();
@@ -31,16 +30,23 @@ namespace Policlinnic.UI
             if (_currentUser.IDRole == 1)
             {
                 TxtRoleName.Text = "Администратор системы";
-                Admin adminDetails = _adminRepository.GetAdminById(_currentUser.Id);
 
-                if (adminDetails != null)
+                if (_adminRepository != null)
                 {
-                    string fullName = adminDetails.FullName;
-                    var parts = fullName.Split(' ');
-                    if (parts.Length >= 2)
-                        TxtUserLogin.Text = $"{parts[0]} {parts[1]}";
-                    else
-                        TxtUserLogin.Text = fullName;
+                    try
+                    {
+                        Admin adminDetails = _adminRepository.GetAdminById(_currentUser.Id);
+                        if (adminDetails != null)
+                        {
+                            string fullName = adminDetails.FullName;
+                            var parts = fullName.Split(' ');
+                            if (parts.Length >= 2)
+                                TxtUserLogin.Text = $"{parts[0]} {parts[1]}";
+                            else
+                                TxtUserLogin.Text = fullName;
+                        }
+                    }
+                    catch {  }
                 }
             }
             // 2. ВРАЧ
@@ -59,7 +65,7 @@ namespace Policlinnic.UI
             }
         }
 
-        // --- ЛОГИКА ДОСТУПА (Кнопки) ---
+        // --- ЛОГИКА ДОСТУПА (Скрытие кнопок) ---
         private void ApplyAccessControl()
         {
             // 1. АДМИНИСТРАТОР
@@ -67,47 +73,44 @@ namespace Policlinnic.UI
             {
                 RbUsers.IsChecked = true;
                 TxtPageTitle.Text = "Пользователи";
-                // RbPatients больше нет, скрывать нечего
                 MainFrame.Navigate(new UsersPage());
             }
             // 2. ВРАЧ
             else if (_currentUser.IDRole == 2)
             {
-                // Скрываем админское
+                // Скрываем кнопки админа
                 RbUsers.Visibility = Visibility.Collapsed;
+                RbStatistics.Visibility = Visibility.Collapsed;
                 RbArchive.Visibility = Visibility.Collapsed;
-                RbDictionaries.Visibility = Visibility.Collapsed;
+                RbReports.Visibility = Visibility.Collapsed;
+                RbDictionaries.Visibility = Visibility.Collapsed; 
 
-                // Меняем названия кнопок под врача
-                RbAppointments.Content = "Мои приёмы";
-                RbSickLeaves.Content = "Выписанные больничные";
-                RbDiagnoses.Content = "Мои диагнозы";
+                // Меняем названия
+                RbAppointments.Content = "Приёмы";
+                RbSickLeaves.Content = "Больничные";
 
-                // ТАК КАК "ПАЦИЕНТЫ" УДАЛЕНЫ, СТАВИМ ПО УМОЛЧАНИЮ "ПРИЕМЫ"
                 RbAppointments.IsChecked = true;
-                TxtPageTitle.Text = "Мои приёмы";
-                // MainFrame.Navigate(new AppointmentsPage());
+                TxtPageTitle.Text = "Приёмы";
+                // MainFrame.Navigate(new AppointmentsPage()); // Раскомментировать когда будет готово
             }
             // 3. ПАЦИЕНТ
             else if (_currentUser.IDRole == 3)
             {
                 // Скрываем лишнее
                 RbUsers.Visibility = Visibility.Collapsed;
-                // RbPatients удален
                 RbReports.Visibility = Visibility.Collapsed;
                 RbArchive.Visibility = Visibility.Collapsed;
                 RbStatistics.Visibility = Visibility.Collapsed;
-                RbDictionaries.Visibility = Visibility.Collapsed;
+                RbDictionaries.Visibility = Visibility.Collapsed; // <-- Справочники пациенту не нужны
 
-                // Меняем названия под пациента
+                // Меняем названия
                 RbAppointments.Content = "Мои записи";
                 RbSickLeaves.Content = "Мои больничные";
-                RbDiagnoses.Content = "История болезней";
                 RbTreatments.Content = "Моё лечение";
 
                 RbAppointments.IsChecked = true;
                 TxtPageTitle.Text = "Мои записи";
-                // MainFrame.Navigate(new PatientAppointmentsPage(_currentUser.Id));
+                // MainFrame.Navigate(new PatientAppointmentsPage(_currentUser.Id)); 
             }
         }
 
@@ -123,34 +126,22 @@ namespace Policlinnic.UI
                     case "RbUsers":
                         MainFrame.Navigate(new UsersPage());
                         break;
-                    case "RbAppointments":
-                        // Логика может отличаться для ролей
-                        // if (_currentUser.IDRole == 3) MainFrame.Navigate(new PatientAppointmentsPage(_currentUser.Id));
-                        // else MainFrame.Navigate(new AppointmentsPage());
+
+                    case "RbDictionaries":
+                        MainFrame.Navigate(new DictionariesPage());
                         break;
+
                     case "RbSickLeaves":
+                        // Переход на страницу больничных (передаем текущего пользователя)
                         MainFrame.Navigate(new SickLeavesPage(_currentUser));
                         break;
-                    case "RbDiagnoses":
-                        // MainFrame.Navigate(new DiagnosesPage());
-                        break;
-                    case "RbTreatments":
-                        // MainFrame.Navigate(new TreatmentsPage());
-                        break;
-                    case "RbExamPlans":
-                        // MainFrame.Navigate(new ExamPlansPage());
-                        break;
-                    case "RbDictionaries":
-                        // MainFrame.Navigate(new DictionariesPage());
-                        break;
+                    
                     case "RbReports":
-                        // MainFrame.Navigate(new ReportsPage());
+                        MainFrame.Navigate(new ReportsPage());
                         break;
-                    case "RbArchive":
-                        // MainFrame.Navigate(new ArchivePage());
-                        break;
+
                     case "RbStatistics":
-                        // MainFrame.Navigate(new StatisticsPage());
+                        MainFrame.Navigate(new StatisticsPage());
                         break;
                 }
             }
@@ -161,6 +152,11 @@ namespace Policlinnic.UI
             LoginWindow login = new LoginWindow();
             login.Show();
             this.Close();
+        }
+
+        private void RbDictionaries_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -89,13 +89,12 @@
 
                         <RadioButton x:Name="RbAppointments" Content="Приёмы" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
                         <RadioButton x:Name="RbSickLeaves" Content="Больничные" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
-                        <RadioButton x:Name="RbDiagnoses" Content="Диагнозы" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
                         <RadioButton x:Name="RbTreatments" Content="Лечение" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
                         <RadioButton x:Name="RbExamPlans" Content="План обследования" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
 
                         <Separator Style="{StaticResource MenuSeparatorStyle}"/>
 
-                        <RadioButton x:Name="RbDictionaries" Content="Справочники" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
+                        <RadioButton x:Name="RbDictionaries" Content="Справочники"  GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
                         <RadioButton x:Name="RbReports" Content="Отчёты" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
                         <RadioButton x:Name="RbArchive" Content="Архив" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>
                         <RadioButton x:Name="RbStatistics" Content="Статистика" GroupName="M" Style="{StaticResource MenuButtonStyle}" Click="Nav_Click"/>

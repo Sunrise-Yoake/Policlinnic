@@ -6,7 +6,6 @@ namespace Policlinnic.BLL.Services
 {
     public class PatientService
     {
-        // Создаем экземпляр репозитория для работы с базой
         private readonly PatientRepository _patientRepository;
 
         public PatientService()

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Policlinnic.DAL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc368f3d0fdb49d5ec8258f958270d0f4a1e3586")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ea654966ebe42c7edf56125d21925b5770c9da5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Policlinnic.DAL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Policlinnic.DAL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

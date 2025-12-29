@@ -54,7 +54,6 @@ namespace Policlinnic.DAL.Repositories
         public List<string> GetSpecializationNames()
         {
             var list = new List<string>();
-            // Если таблица называется по-другому, поправь тут. Обычно "Специализация".
             string sql = "SELECT DISTINCT Специализация FROM Специализация ORDER BY Специализация";
 
             try
@@ -69,11 +68,10 @@ namespace Policlinnic.DAL.Repositories
                     }
                 }
             }
-            catch { /* Если ошибка с таблицей, вернет пустой список, не уронив программу */ }
+            catch { }
             return list;
         }
 
-        // --- БЕЗОПАСНЫЙ МАППИНГ ---
         private SickLeaveView Map(SqlDataReader reader)
         {
             var item = new SickLeaveView

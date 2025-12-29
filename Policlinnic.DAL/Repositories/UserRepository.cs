@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Policlinnic.Domain.Entities;
-using System.Collections.Generic; // Нужно для List<>
+using System.Collections.Generic;
 using System.Data;
 
 namespace Policlinnic.DAL.Repositories
@@ -10,7 +10,6 @@ namespace Policlinnic.DAL.Repositories
         public User GetUserByLogin(string login)
         {
             User user = null;
-            // Тут твой старый код без изменений...
             string sql = "SELECT Код, Логин, Пароль, КодРоли, Телефон FROM Пользователь WHERE Логин = @Login";
 
             using (SqlConnection conn = GetConnection())
@@ -54,7 +53,7 @@ namespace Policlinnic.DAL.Repositories
                     {
                         while (reader.Read())
                         {
-                            // Создаем объект UserView и заполняем данными
+                           
                             var userView = new UserView
                             {
                                 Id = (int)reader["Id"],
