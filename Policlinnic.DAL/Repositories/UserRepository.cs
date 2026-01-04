@@ -240,5 +240,41 @@ namespace Policlinnic.DAL.Repositories
                 cmd.Parameters.AddWithValue("@Exp", user.Experience);
             }
         }
+        public void DeleteUser(int userId)
+        {
+            // SQL-команда максимально простая, так как логика каскада в триггере БД
+            string sql = "DELETE FROM Пользователь WHERE Код = @Id";
+
+            using (SqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    // Передаем ID пользователя для удаления
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = userId;
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        public bool IsLoginTaken(string login, int? excludeId = null)
+        {
+            // Если мы редактируем (excludeId не null), проверяем все записи кроме текущей
+            string sql = "SELECT COUNT(*) FROM Пользователь WHERE Логин = @Log";
+            if (excludeId.HasValue) sql += " AND Код <> @Id";
+
+            using (SqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Log", login);
+                    if (excludeId.HasValue) cmd.Parameters.AddWithValue("@Id", excludeId.Value);
+
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
     }
 }

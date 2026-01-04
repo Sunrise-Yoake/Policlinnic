@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Policlinnic.UI.Views.SickLeaveWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Больничный лист" Height="400" Width="400"
+        Title="Больничный лист" Height="500" Width="450"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <Grid Margin="20">
@@ -10,33 +10,52 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Пациент:" Foreground="Gray" Margin="0,0,0,5"/>
-        <ComboBox x:Name="CmbPatient" Grid.Row="1" Height="35" Margin="0,0,0,15"
-                  DisplayMemberPath="Name" SelectedValuePath="Id"/>
+        <TextBlock Text="Поиск пациента (ФИО или Телефон):" Foreground="Gray" Margin="0,0,0,5"/>
+        <Grid Grid.Row="1" Margin="0,0,0,5">
+            <TextBox x:Name="TxtPatientSearch" Height="30" VerticalContentAlignment="Center" 
+             Padding="5,0,25,0" TextChanged="PatientSearch_Changed"/>
 
-        <TextBlock Grid.Row="2" Text="Врач:" Foreground="Gray" Margin="0,0,0,5"/>
-        <ComboBox x:Name="CmbDoctor" Grid.Row="3" Height="35" Margin="0,0,0,15"
-                  DisplayMemberPath="Name" SelectedValuePath="Id"/>
+            <Button x:Name="BtnClearPatient" Content="✕" HorizontalAlignment="Right" Width="25" 
+            Background="Transparent" BorderThickness="0" Cursor="Hand" Foreground="Gray"
+            Click="BtnClearPatient_Click" Visibility="Collapsed"/>
+        </Grid>
+        <ListBox x:Name="LstPatientResults" Grid.Row="2" MaxHeight="100" Margin="0,0,0,10" 
+                 DisplayMemberPath="DisplayText" SelectedValuePath="Id" 
+                 Visibility="Collapsed" SelectionChanged="LstPatientResults_SelectionChanged"/>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+        <TextBlock Grid.Row="3" Text="Поиск врача (ФИО или Специализация):" Foreground="Gray" Margin="0,10,0,5"/>
+        <Grid Grid.Row="4" Margin="0,0,0,5">
+            <TextBox x:Name="TxtDoctorSearch" Height="30" VerticalContentAlignment="Center" 
+             Padding="5,0,25,0" TextChanged="DoctorSearch_Changed"/>
+
+            <Button x:Name="BtnClearDoctor" Content="✕" HorizontalAlignment="Right" Width="25" 
+            Background="Transparent" BorderThickness="0" Cursor="Hand" Foreground="Gray"
+            Click="BtnClearDoctor_Click" Visibility="Collapsed"/>
+        </Grid>
+        <ListBox x:Name="LstDoctorResults" Grid.Row="5" MaxHeight="100" Margin="0,0,0,10" 
+                 DisplayMemberPath="DisplayText" SelectedValuePath="Id" 
+                 Visibility="Collapsed" SelectionChanged="LstDoctorResults_SelectionChanged"/>
+
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Margin="0,0,20,0">
                 <TextBlock Text="Дата начала:" Foreground="Gray"/>
                 <DatePicker x:Name="DpStart" Width="140" Height="30" Margin="0,5,0,0"/>
             </StackPanel>
-
             <StackPanel>
                 <TextBlock Text="Дата закрытия:" Foreground="Gray"/>
                 <DatePicker x:Name="DpEnd" Width="140" Height="30" Margin="0,5,0,0"/>
-                <CheckBox x:Name="ChkIsOpen" Content="Больничный открыт" 
-                          Margin="0,5,0,0" Checked="ChkIsOpen_Checked" Unchecked="ChkIsOpen_Unchecked"/>
+                <CheckBox x:Name="ChkIsOpen" Content="Открыт" Margin="0,5,0,0" 
+                          Checked="ChkIsOpen_Checked" Unchecked="ChkIsOpen_Unchecked"/>
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
             <Button Content="Отмена" Width="100" Height="35" Margin="0,0,10,0"
                     Background="White" BorderBrush="#DDD" Click="BtnCancel_Click"/>
             <Button Content="Сохранить" Width="100" Height="35" 

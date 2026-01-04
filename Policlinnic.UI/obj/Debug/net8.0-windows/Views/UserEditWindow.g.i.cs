@@ -156,7 +156,7 @@ namespace Policlinnic.UI.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Policlinnic.UI;V1.0.0.0;component/views/usereditwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Policlinnic.UI;component/views/usereditwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\UserEditWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

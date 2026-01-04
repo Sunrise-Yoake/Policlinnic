@@ -187,8 +187,11 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Content="✏️" Style="{StaticResource GridActionButton}"
-                                        ToolTip="Редактировать данные"
-                                        Click="BtnEdit_Click"/>
+                        ToolTip="Редактировать данные"
+                        Click="BtnEdit_Click"/>
+                                <Button Content="❌" Style="{StaticResource GridActionButton}"
+                        ToolTip="Удалить пользователя навсегда"
+                        Click="BtnDelete_Click"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

@@ -115,10 +115,15 @@ namespace Policlinnic.UI.Views
         {
             if (string.IsNullOrWhiteSpace(TxtLogin.Text) || DpBirth.SelectedDate == null || string.IsNullOrWhiteSpace(TxtFIO.Text))
             {
-                MessageBox.Show("Заполните обязательные поля (Логин, ФИО, Дата рождения)!");
+                MessageBox.Show("Заполните обязательные поля. ФИО не указано!");
                 return;
             }
-
+            if (_repository.IsLoginTaken(TxtLogin.Text, _userToEdit?.Id))
+            {
+                MessageBox.Show("Этот логин уже занят. Пожалуйста, выберите другой.",
+                                "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             try
             {
                 var user = new UserView
@@ -154,12 +159,7 @@ namespace Policlinnic.UI.Views
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
-        // Метод удаления теперь не вызывает репозиторий, а сообщает о запрете (или кнопка просто удаляется из XAML)
-        private void BtnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Удаление пользователей запрещено правилами системы. Используйте архивацию или триггер БД.",
-                            "Внимание", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
+        
 
         // Кнопка редактирования (остается без изменений)
         private void BtnEdit_Click(object sender, RoutedEventArgs e)

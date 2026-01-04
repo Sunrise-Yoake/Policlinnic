@@ -95,7 +95,7 @@ namespace Policlinnic.UI.Views.Pages
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             var item = ((FrameworkElement)sender).DataContext;
-            if (MessageBox.Show("Удалить запись?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Удалить запись?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 try
                 {
@@ -104,9 +104,36 @@ namespace Policlinnic.UI.Views.Pages
                     else if (item is Illness i) { id = i.ID; table = "Болезнь"; }
                     else if (item is Specialization s) { id = s.ID; table = "Специализация"; }
 
-                    if (id > 0) { _repository.DeleteEntity(table, id); LoadData(); }
+                    if (id > 0)
+                    {
+                        _repository.DeleteEntity(table, id);
+                        LoadData();
+                    }
                 }
-                catch (Exception ex) { MessageBox.Show("Ошибка удаления: " + ex.Message); }
+                catch (Exception ex)
+                {
+                    // Обработка конфликтов внешних ключей (ошибки REFERENCE)
+                    if (ex.Message.Contains("FK_Лечение_Лекарство"))
+                    {
+                        MessageBox.Show("Удаление невозможно: данное лекарство уже назначено пациентам в планах лечения.",
+                                        "Конфликт данных", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else if (ex.Message.Contains("FK_Диагноз_Болезнь"))
+                    {
+                        MessageBox.Show("Удаление невозможно: эта болезнь фигурирует в установленных диагнозах пациентов.",
+                                        "Конфликт данных", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else if (ex.Message.Contains("FK_Врач_Специализация"))
+                    {
+                        MessageBox.Show("Удаление невозможно: в системе зарегистрированы врачи с этой специализацией.",
+                                        "Конфликт данных", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        // Для всех остальных непредвиденных ошибок
+                        MessageBox.Show("Ошибка удаления: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
             }
         }
 

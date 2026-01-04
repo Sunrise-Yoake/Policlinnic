@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Policlinnic.BLL.Services;
+using Policlinnic.DAL.Repositories; // Путь к вашему новому репозиторию
 using Policlinnic.Domain.Entities;
 
 namespace Policlinnic.UI.Views
@@ -8,104 +11,149 @@ namespace Policlinnic.UI.Views
     public partial class SickLeaveWindow : Window
     {
         private readonly SickLeaveService _service = new SickLeaveService();
-        public SickLeave Result { get; private set; } // Объект для возврата
+        private readonly LookupRepository _lookupRepository = new LookupRepository();
 
-        // Конструктор: если sickLeave == null, значит режим добавления
+        public SickLeave Result { get; private set; }
+
+        private int? _selectedPatientId;
+        private int? _selectedDoctorId;
+
         public SickLeaveWindow(SickLeave sickLeave = null)
         {
             InitializeComponent();
-            LoadCombos();
 
             if (sickLeave != null)
             {
-                // Режим редактирования: заполняем поля
                 Result = sickLeave;
-                CmbPatient.SelectedValue = sickLeave.IDPatient;
-                CmbDoctor.SelectedValue = sickLeave.IDDoctor;
-                DpStart.SelectedDate = sickLeave.DateStart;
+                _selectedPatientId = sickLeave.IDPatient;
+                _selectedDoctorId = sickLeave.IDDoctor;
 
+                // В режиме редактирования отображаем ID (или можно подтянуть имена через доп. метод)
+                TxtPatientName.Text = $"ID: {sickLeave.IDPatient}";
+                TxtDoctorName.Text = $"ID: {sickLeave.IDDoctor}";
+
+                DpStart.SelectedDate = sickLeave.DateStart;
                 if (sickLeave.DateEnd.HasValue)
                 {
                     DpEnd.SelectedDate = sickLeave.DateEnd;
                     ChkIsOpen.IsChecked = false;
                 }
-                else
-                {
-                    ChkIsOpen.IsChecked = true;
-                }
+                else ChkIsOpen.IsChecked = true;
             }
             else
             {
-                // Режим добавления
                 Result = new SickLeave();
                 DpStart.SelectedDate = DateTime.Now;
-                ChkIsOpen.IsChecked = true; // По умолчанию открыт
+                ChkIsOpen.IsChecked = true;
             }
         }
 
-        private void LoadCombos()
+        // ПОИСК ПАЦИЕНТА
+        private void PatientSearch_Changed(object sender, TextChangedEventArgs e)
         {
-            try
+            string searchText = TxtPatientSearch.Text;
+            BtnClearPatient.Visibility = string.IsNullOrEmpty(searchText) ? Visibility.Collapsed : Visibility.Visible;
+
+            if (_lookupRepository == null) return;
+
+            // Передаем один и тот же текст в оба параметра поиска (имя и телефон)
+            // чтобы БД искала совпадение в любом из этих полей
+            var results = _lookupRepository.SearchPatientsLookup(searchText, searchText);
+            LstPatientResults.ItemsSource = results;
+            LstPatientResults.Visibility = results.Any() ? Visibility.Visible : Visibility.Collapsed;
+        }
+        // ОЧИСТКА ПОЛЯ ПАЦИЕНТА
+        private void BtnClearPatient_Click(object sender, RoutedEventArgs e)
+        {
+            TxtPatientSearch.Clear();
+            _selectedPatientId = null;
+            LstPatientResults.Visibility = Visibility.Collapsed;
+        }
+
+        private void LstPatientResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LstPatientResults.SelectedItem is PatientLookupItem item)
             {
-                CmbPatient.ItemsSource = _service.GetPatients();
-                CmbDoctor.ItemsSource = _service.GetDoctors();
+                _selectedPatientId = item.Id;
+                TxtPatientName.Text = item.DisplayText; // Показываем выбранное
+                LstPatientResults.Visibility = Visibility.Collapsed;
             }
-            catch (Exception ex)
+        }
+
+        // ПОИСК ВРАЧА
+        private void DoctorSearch_Changed(object sender, TextChangedEventArgs e)
+        {
+            string searchText = TxtDoctorSearch.Text;
+            BtnClearDoctor.Visibility = string.IsNullOrEmpty(searchText) ? Visibility.Collapsed : Visibility.Visible;
+
+            if (_lookupRepository == null) return;
+
+            var results = _lookupRepository.SearchDoctorsLookup(searchText, searchText);
+            LstDoctorResults.ItemsSource = results;
+            LstDoctorResults.Visibility = results.Any() ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        // ОЧИСТКА ПОЛЯ ВРАЧА
+        private void BtnClearDoctor_Click(object sender, RoutedEventArgs e)
+        {
+            TxtDoctorSearch.Clear();
+            _selectedDoctorId = null;
+            LstDoctorResults.Visibility = Visibility.Collapsed;
+        }
+
+        private void LstDoctorResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LstDoctorResults.SelectedItem is DoctorLookupItem item)
             {
-                MessageBox.Show("Ошибка загрузки списков: " + ex.Message);
+                _selectedDoctorId = item.Id;
+                TxtDoctorName.Text = item.DisplayText;
+                LstDoctorResults.Visibility = Visibility.Collapsed;
             }
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (CmbPatient.SelectedValue == null || CmbDoctor.SelectedValue == null || DpStart.SelectedDate == null)
+            if (_selectedPatientId == null || _selectedDoctorId == null || DpStart.SelectedDate == null)
             {
-                MessageBox.Show("Заполните обязательные поля (Пациент, Врач, Дата начала)!");
+                MessageBox.Show("Сначала выберите Пациента и Врача из предложенного списка!");
                 return;
             }
 
-            // Заполняем объект данными из формы
-            Result.IDPatient = (int)CmbPatient.SelectedValue;
-            Result.IDDoctor = (int)CmbDoctor.SelectedValue;
+            Result.IDPatient = _selectedPatientId.Value;
+            Result.IDDoctor = _selectedDoctorId.Value;
             Result.DateStart = DpStart.SelectedDate.Value;
+            Result.DateEnd = ChkIsOpen.IsChecked == true ? null : DpEnd.SelectedDate;
 
-            if (ChkIsOpen.IsChecked == true)
-                Result.DateEnd = null;
-            else
-                Result.DateEnd = DpEnd.SelectedDate;
-
-            // Валидация
             if (Result.DateEnd.HasValue && Result.DateEnd < Result.DateStart)
             {
-                MessageBox.Show("Дата окончания не может быть раньше начала!");
+                MessageBox.Show("Ошибка: Дата окончания раньше начала!");
                 return;
             }
 
-            // Пытаемся сохранить через сервис
             try
             {
                 _service.Save(Result);
-                DialogResult = true; // Закрывает окно и возвращает true
+                DialogResult = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка сохранения: " + ex.Message);
+                MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
 
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-        }
+        // Остальные методы (Cancel, CheckBox) остаются без изменений...
+        private void BtnCancel_Click(object sender, RoutedEventArgs e) => DialogResult = false;
 
         private void ChkIsOpen_Checked(object sender, RoutedEventArgs e)
         {
+            if (DpEnd == null) return;
             DpEnd.IsEnabled = false;
             DpEnd.SelectedDate = null;
         }
 
         private void ChkIsOpen_Unchecked(object sender, RoutedEventArgs e)
         {
+            if (DpEnd == null) return;
             DpEnd.IsEnabled = true;
             if (DpEnd.SelectedDate == null) DpEnd.SelectedDate = DateTime.Now;
         }

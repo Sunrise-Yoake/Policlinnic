@@ -133,6 +133,38 @@ namespace Policlinnic.UI.Views.Pages
                 }
             }
         }
+        // УДАЛЕНИЕ
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var user = ((FrameworkElement)sender).DataContext as UserView;
+
+            if (user != null)
+            {
+                var result = MessageBox.Show(
+                    $"Вы уверены, что хотите удалить пользователя {user.FIO}?\nВсе связанные данные (приёмы, больничные) будут стерты!",
+                    "Внимание: Каскадное удаление",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        // Вызываем метод удаления в репозитории
+                        _userRepository.DeleteUser(user.Id);
+
+                        // Обновляем список
+                        LoadData();
+
+                        MessageBox.Show("Пользователь и все его данные успешно удалены.");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при удалении: " + ex.Message);
+                    }
+                }
+            }
+        }
 
     }
 }
