@@ -113,57 +113,67 @@ namespace Policlinnic.UI.Views
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TxtLogin.Text) ||
-                string.IsNullOrWhiteSpace(TxtFIO.Text) ||
-                DpBirth.SelectedDate == null)
+            if (string.IsNullOrWhiteSpace(TxtLogin.Text) || DpBirth.SelectedDate == null || string.IsNullOrWhiteSpace(TxtFIO.Text))
             {
-                MessageBox.Show("Заполните обязательные поля (*)!");
+                MessageBox.Show("Заполните обязательные поля (Логин, ФИО, Дата рождения)!");
                 return;
             }
 
             try
             {
-                string role = (CmbRole.SelectedItem as ComboBoxItem).Content.ToString();
-
                 var user = new UserView
                 {
-                    Id = _userToEdit != null ? _userToEdit.Id : 0,
+                    Id = _userToEdit?.Id ?? 0,
                     Login = TxtLogin.Text,
-                    Password = _userToEdit == null ? PasswordHasher.Hash(TxtPassword.Text) : null,
                     Phone = TxtPhone.Text,
-                    RoleName = role,
+                    RoleName = (CmbRole.SelectedItem as ComboBoxItem).Content.ToString(),
                     FIO = TxtFIO.Text,
                     DateOfBirth = DpBirth.SelectedDate.Value.ToString("yyyy-MM-dd"),
-                    Gender = (CmbGender.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Мужской",
+                    Gender = (CmbGender.SelectedItem as ComboBoxItem)?.Content.ToString(),
                     Address = TxtAddress.Text,
+                    Experience = int.TryParse(TxtExperience.Text, out int exp) ? exp : (int?)null,
+                    IDSpecialization = CmbSpecialization.SelectedValue as int?
                 };
 
-                int.TryParse(TxtExperience.Text, out int exp);
-                user.Experience = exp;
-
-                if (role == "Врач" && CmbSpecialization.SelectedValue != null)
+                if (_userToEdit == null) // НОВЫЙ
                 {
-                    user.IDSpecialization = (int)CmbSpecialization.SelectedValue;
-                }
-
-                if (_userToEdit == null)
-                {
+                    if (string.IsNullOrWhiteSpace(TxtPassword.Text)) { MessageBox.Show("Введите пароль!"); return; }
+                    user.Password = TxtPassword.Text; // Добавь хеширование если нужно
                     _repository.AddUserWithProfile(user);
                 }
-                else
+                else // РЕДАКТИРОВАНИЕ
                 {
-                    MessageBox.Show("Редактирование пока работает только визуально.");
+                    _repository.UpdateUserWithProfile(user);
                 }
 
                 IsSuccess = true;
-                Close();
+                this.DialogResult = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка: " + ex.Message);
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
         }
+        // Метод удаления теперь не вызывает репозиторий, а сообщает о запрете (или кнопка просто удаляется из XAML)
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Удаление пользователей запрещено правилами системы. Используйте архивацию или триггер БД.",
+                            "Внимание", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
+        // Кнопка редактирования (остается без изменений)
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var user = ((FrameworkElement)sender).DataContext as UserView;
+            if (user != null)
+            {
+                var editWindow = new UserEditWindow(user);
+                if (editWindow.ShowDialog() == true || editWindow.IsSuccess)
+                {
+                    _repository.UpdateUserWithProfile(user);
+                }
+            }
+        }
         private void BtnCancel_Click(object sender, RoutedEventArgs e) => Close();
     }
 }

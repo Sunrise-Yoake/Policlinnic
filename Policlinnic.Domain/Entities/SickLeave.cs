@@ -1,11 +1,20 @@
-﻿namespace Policlinnic.Domain.Entities
+﻿using System;
+
+namespace Policlinnic.Domain.Entities
 {
     public class SickLeave
     {
-        public int ID { get; set; } // Код
-        public int IDPatient { get; set; } // КодПациента
-        public int IDDoctor { get; set; } // КодВрача
-        public DateTime StartDate { get; set; } // ДатаНачала
-        public DateTime EndDate { get; set; } // ДатаОкончания
+        public int Id { get; set; }           // Было ID
+        public int IDPatient { get; set; }
+        public int IDDoctor { get; set; }
+        public DateTime DateStart { get; set; } // Было StartDate
+        public DateTime? DateEnd { get; set; }  // Было EndDate (сделали nullable)
+    }
+
+    // Вспомогательный класс для выпадающих списков (Пациенты/Врачи)
+    public class LookupItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32; // Для диалога сохранения
+using Microsoft.Win32;
 using Policlinnic.DAL.Repositories;
 using Policlinnic.Domain.Entities;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices; // Для очистки COM-объектов
+using System.Runtime.InteropServices; 
 
 namespace Policlinnic.UI.Views.Pages
 {

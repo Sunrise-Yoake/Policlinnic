@@ -189,11 +189,6 @@
                                 <Button Content="✏️" Style="{StaticResource GridActionButton}"
                                         ToolTip="Редактировать данные"
                                         Click="BtnEdit_Click"/>
-
-                                <Button Content="✕" Style="{StaticResource GridActionButton}"
-                                        Foreground="#E53935" FontWeight="Bold"
-                                        ToolTip="Удалить пользователя"
-                                        Click="BtnDelete_Click"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

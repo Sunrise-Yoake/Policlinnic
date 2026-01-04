@@ -8,21 +8,20 @@ namespace Policlinnic.DAL.Repositories
 {
     public class AppointmentRepository : BaseRepository
     {
-        // 1. Метод для ПАЦИЕНТА (Мои записи)
+        // 1. Чтение записей ПАЦИЕНТА
         public List<AppointmentItem> GetByPatient(int patientId)
         {
             return ExecuteReadProc("GetPatientAppointments", new SqlParameter("@PatientID", patientId));
         }
 
-        // 2. Метод для АДМИНА / ВРАЧА (Все записи или записи врача)
+        // 2. Чтение записей ВРАЧА или АДМИНА
         public List<AppointmentItem> GetByDoctor(int? doctorId = null)
         {
-            // Если doctorId == null, процедура вернет всё (для Админа)
             var param = new SqlParameter("@DoctorID", (object)doctorId ?? DBNull.Value);
             return ExecuteReadProc("GetDoctorAppointments", param);
         }
 
-        // 3. Метод для ПОИСКА (Свободные слоты)
+        // 3. Поиск СВОБОДНЫХ слотов
         public List<AppointmentItem> GetFreeSlots(int? specId = null, int? doctorId = null)
         {
             var p1 = new SqlParameter("@SpecID", (object)specId ?? DBNull.Value);
@@ -30,7 +29,7 @@ namespace Policlinnic.DAL.Repositories
             return ExecuteReadProc("GetFreeSlots", p1, p2);
         }
 
-        // --- Вспомогательный метод чтения (чтобы не дублировать код чтения Reader) ---
+        // --- Вспомогательный метод для маппинга данных из View ---
         private List<AppointmentItem> ExecuteReadProc(string procName, params SqlParameter[] parameters)
         {
             var list = new List<AppointmentItem>();
@@ -50,8 +49,12 @@ namespace Policlinnic.DAL.Repositories
                             {
                                 Id = (int)r["Id"],
                                 DateVisit = (DateTime)r["DateVisit"],
-                                Cabinet = r["Cabinet"].ToString(),      // Название из View
+                                Cabinet = r["Cabinet"].ToString(),
+
+                                // ВАЖНО: Читаем ID врача, чтобы работало редактирование
+                                DoctorId = (int)r["DoctorID"],
                                 DoctorName = r["DoctorName"].ToString(),
+
                                 SpecName = r["SpecName"].ToString(),
                                 PatientName = r["PatientName"].ToString(),
                                 PatientId = r["PatientID"] as int?
@@ -63,7 +66,7 @@ namespace Policlinnic.DAL.Repositories
             return list;
         }
 
-        // --- ОСТАЛЬНЫЕ МЕТОДЫ (Без изменений, только вызовы) ---
+        // --- CRUD ОПЕРАЦИИ ---
 
         public void BookSlot(int appointmentId, int patientId)
         {
@@ -80,7 +83,7 @@ namespace Policlinnic.DAL.Repositories
             }
         }
 
-        public void Add(int doctorId, DateTime date, string cabinet)
+        public void Add(int doctorId, DateTime date, string cabinet, int? patientId = null)
         {
             using (var conn = GetConnection())
             {
@@ -91,6 +94,26 @@ namespace Policlinnic.DAL.Repositories
                     cmd.Parameters.AddWithValue("@DoctorId", doctorId);
                     cmd.Parameters.AddWithValue("@Date", date);
                     cmd.Parameters.AddWithValue("@Cabinet", cabinet);
+                    cmd.Parameters.AddWithValue("@PatientId", (object)patientId ?? DBNull.Value);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        // Метод обновления (Редактирование)
+        public void Update(int id, int doctorId, DateTime date, string cabinet, int? patientId = null)
+        {
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand("UpdateAppointment", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@DoctorId", doctorId);
+                    cmd.Parameters.AddWithValue("@Date", date);
+                    cmd.Parameters.AddWithValue("@Cabinet", cabinet);
+                    cmd.Parameters.AddWithValue("@PatientId", (object)patientId ?? DBNull.Value);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -110,6 +133,28 @@ namespace Policlinnic.DAL.Repositories
             }
         }
 
+        // --- СПЕЦИАЛЬНЫЕ ОПЕРАЦИИ ---
+
+        // Удаление старых пустых слотов (Курсор)
+        public int DeleteOldEmptySlots()
+        {
+            int count = 0;
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand("Admin_DeleteOldEmptySlots", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var outParam = new SqlParameter("@DeletedCount", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(outParam);
+                    cmd.ExecuteNonQuery();
+                    if (outParam.Value != DBNull.Value) count = (int)outParam.Value;
+                }
+            }
+            return count;
+        }
+
+        // Экстренная отмена дня (Курсор)
         public int CancelDoctorDay(int doctorId, DateTime day)
         {
             int cancelled = 0;
@@ -130,7 +175,8 @@ namespace Policlinnic.DAL.Repositories
             return cancelled;
         }
 
-        // --- СПРАВОЧНИКИ (Для ComboBox) ---
+        // --- СПРАВОЧНИКИ ---
+
         public List<Specialization> GetSpecs()
         {
             var list = new List<Specialization>();
@@ -173,6 +219,7 @@ namespace Policlinnic.DAL.Repositories
             return list;
         }
 
+        // Метод для получения всех пациентов (если нужен для выпадающего списка)
         public List<Patient> GetAllPatients()
         {
             var list = new List<Patient>();

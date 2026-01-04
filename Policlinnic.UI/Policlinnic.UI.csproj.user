@@ -31,6 +31,9 @@
     <Compile Update="Views\Pages\UsersPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\SickLeaveWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\UserEditWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Pages\UsersPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SickLeaveWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\UserEditWindow.xaml">

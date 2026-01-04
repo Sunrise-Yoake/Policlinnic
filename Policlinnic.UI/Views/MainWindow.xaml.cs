@@ -81,7 +81,6 @@ namespace Policlinnic.UI
                 // Скрываем кнопки админа
                 RbUsers.Visibility = Visibility.Collapsed;
                 RbStatistics.Visibility = Visibility.Collapsed;
-                RbArchive.Visibility = Visibility.Collapsed;
                 RbReports.Visibility = Visibility.Collapsed;
                 RbDictionaries.Visibility = Visibility.Collapsed; 
 
@@ -94,14 +93,12 @@ namespace Policlinnic.UI
                 // Скрываем лишнее
                 RbUsers.Visibility = Visibility.Collapsed;
                 RbReports.Visibility = Visibility.Collapsed;
-                RbArchive.Visibility = Visibility.Collapsed;
                 RbStatistics.Visibility = Visibility.Collapsed;
                 RbDictionaries.Visibility = Visibility.Collapsed;
 
                 // Меняем названия
                 RbAppointments.Content = "Мои записи";
                 RbSickLeaves.Content = "Мои больничные";
-                RbTreatments.Content = "Моё лечение";
 
                 RbAppointments.IsChecked = true;
                 TxtPageTitle.Text = "Мои записи";
@@ -139,9 +136,9 @@ namespace Policlinnic.UI
                         break;
 
                     case "RbAppointments":
-                        // Передаем _currentUser внутрь страницы
                         MainFrame.Navigate(new AppointmentsPage(_currentUser));
                         break;
+
 
                 }
             }
@@ -155,6 +152,11 @@ namespace Policlinnic.UI
         }
 
         private void RbDictionaries_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RbArchive_Checked(object sender, RoutedEventArgs e)
         {
 
         }

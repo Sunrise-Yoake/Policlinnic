@@ -92,7 +92,7 @@ namespace Policlinnic.UI.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Policlinnic.UI;component/views/dictionaryeditwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Policlinnic.UI;V1.0.0.0;component/views/dictionaryeditwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\DictionaryEditWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

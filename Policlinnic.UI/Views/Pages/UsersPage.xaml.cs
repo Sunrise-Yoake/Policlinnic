@@ -134,31 +134,5 @@ namespace Policlinnic.UI.Views.Pages
             }
         }
 
-        // КНОПКА УДАЛИТЬ (Крестик в строке)
-        private void BtnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            var user = ((FrameworkElement)sender).DataContext as UserView;
-            if (user == null) return;
-
-            // Требование 3.6: Защита (спрашиваем подтверждение)
-            if (MessageBox.Show($"Удалить пользователя {user.FIO}?", "Подтверждение",
-                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                try
-                {
-                    // TODO: Реализовать _userRepository.DeleteUser(user.Id)
-                    // _userRepository.DeleteUser(user.Id);
-
-                    MessageBox.Show("Пользователь удален (логика в репо нужна)");
-
-                    // Автоматическое обновление
-                    LoadData();
-                }
-                catch (System.Exception ex)
-                {
-                    MessageBox.Show("Ошибка удаления: " + ex.Message);
-                }
-            }
-        }
     }
 }

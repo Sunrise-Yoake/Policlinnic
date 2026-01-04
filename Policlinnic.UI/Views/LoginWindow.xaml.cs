@@ -55,7 +55,7 @@ namespace Policlinnic.UI.Views
                     MainWindow mainWindow = new MainWindow(user);
 
                     // Настраиваем вид в зависимости от роли
-                    ConfigureWindowForRole(mainWindow, user.IDRole);
+                    ConfigureWindowForRole(mainWindow, user);
 
                     mainWindow.Show();
                     this.Close(); // Закрываем окно авторизации
@@ -73,20 +73,20 @@ namespace Policlinnic.UI.Views
                                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void ConfigureWindowForRole(MainWindow window, int roleId)
+        private void ConfigureWindowForRole(MainWindow window, User currentUser)
         {
-            switch (roleId)
+            switch (currentUser.IDRole)
             {
                 case 1: 
                     window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.UsersPage());
                     break;
 
                 case 2:
-                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.AppointmentsPage());
+                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.AppointmentsPage(currentUser));
                     break;
 
                 case 3: 
-                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.AppointmentsPage());
+                    window.MainFrame.Navigate(new Policlinnic.UI.Views.Pages.AppointmentsPage(currentUser));
                     break;
 
                 default:

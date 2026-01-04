@@ -25,13 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="System.Drawing.Common" Version="10.0.1" />
   </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Policlinnic.Domain\Policlinnic.Domain.csproj" />
-		<ProjectReference Include="..\Policlinnic.BLL\Policlinnic.BLL.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Policlinnic.BLL\Policlinnic.BLL.csproj" />
+    <ProjectReference Include="..\Policlinnic.Domain\Policlinnic.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -5,41 +5,35 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Policlinnic.DAL.Repositories;
+using Policlinnic.BLL.Services; // Подключаем Service
 using Policlinnic.Domain.Entities;
-
+using Policlinnic.UI.Views; // Это позволит видеть SickLeaveWindow
 namespace Policlinnic.UI.Views.Pages
 {
     public partial class SickLeavesPage : Page
     {
-        private readonly SickLeaveRepository _repository;
+        private readonly SickLeaveService _service = new SickLeaveService();
         private readonly User _currentUser;
-        private List<SickLeaveView>? _allData = new List<SickLeaveView>();
+
+        private List<SickLeaveView> _allData = new List<SickLeaveView>();
         private bool _isLoaded = false;
 
         public SickLeavesPage(User user)
         {
             InitializeComponent();
             _currentUser = user;
-            _repository = new SickLeaveRepository();
 
             SetupRoleAccess();
             LoadFilters();
-
-            // Загружаем данные и сразу применяем сортировку, 
-            // чтобы стрелочка отобразилась корректно (зеленая вниз)
             LoadData();
 
-            this.Loaded += SickLeavesPage_Loaded;
-            _isLoaded = true;
-        }
-
-        private void SickLeavesPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (PanelSpecFilter.Visibility == Visibility.Visible)
-                CmbSpec.Focus();
-            else
-                CmbStatus.Focus();
+            this.Loaded += (s, e) =>
+            {
+                _isLoaded = true;
+                // Фокус на нужный фильтр при загрузке
+                if (PanelSpecFilter.Visibility == Visibility.Visible) CmbSpec.Focus();
+                else CmbStatus.Focus();
+            };
         }
 
         private void SetupRoleAccess()
@@ -49,9 +43,8 @@ namespace Policlinnic.UI.Views.Pages
                 BtnAdd.Visibility = Visibility.Collapsed;
                 ColActions.Visibility = Visibility.Collapsed;
                 PanelSpecFilter.Visibility = Visibility.Collapsed;
-                // Врач виден пациенту
             }
-            else
+            else // Врач/Админ
             {
                 BtnAdd.Visibility = Visibility.Visible;
                 ColActions.Visibility = Visibility.Visible;
@@ -62,52 +55,51 @@ namespace Policlinnic.UI.Views.Pages
 
         private void LoadFilters()
         {
-            try
-            {
-                var specs = _repository.GetSpecializationNames();
-                CmbSpec.Items.Add("Все специализации");
-                foreach (var s in specs) CmbSpec.Items.Add(s);
-                CmbSpec.SelectedIndex = 0;
-            }
-            catch { }
+            CmbSpec.Items.Clear();
+            CmbSpec.Items.Add("Все специализации");
+
+            var specs = _service.GetSpecializations();
+            foreach (var s in specs) CmbSpec.Items.Add(s);
+
+            CmbSpec.SelectedIndex = 0;
         }
 
         private void LoadData()
         {
             try
             {
-                if (_currentUser.IDRole == 3)
-                    _allData = _repository.GetByIDPatient(_currentUser.Id);
-                else
-                    _allData = _repository.GetAllSickLeaves();
+                // ВСЯ логика загрузки теперь в одну строчку через BLL
+                _allData = _service.GetList(_currentUser);
 
                 ApplyFilters();
-
-                // МАГИЯ СОРТИРОВКИ:
-                // Это заставит DataGrid обновить стрелочки в нашем кастомном заголовке
-                var view = CollectionViewSource.GetDefaultView(GridSickLeaves.ItemsSource);
-                if (view != null)
-                {
-                    view.SortDescriptions.Clear();
-                    // Сначала открытые, потом новые
-                    view.SortDescriptions.Add(new SortDescription("IsOpen", ListSortDirection.Descending));
-                    view.SortDescriptions.Add(new SortDescription("RawDateStart", ListSortDirection.Descending));
-                    view.Refresh();
-
-                    // Насильно говорим колонке, что она отсортирована, чтобы триггер в XAML сработал
-                    foreach (var col in GridSickLeaves.Columns)
-                    {
-                        if (col.SortMemberPath == "RawDateStart") // Колонка "Начало"
-                        {
-                            col.SortDirection = ListSortDirection.Descending;
-                            break;
-                        }
-                    }
-                }
+                ApplySorting(); // Вынесли сортировку в отдельный метод
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка: " + ex.Message);
+                MessageBox.Show("Ошибка загрузки: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ApplySorting()
+        {
+            // Магия для стрелочек в заголовках
+            var view = CollectionViewSource.GetDefaultView(GridSickLeaves.ItemsSource);
+            if (view != null)
+            {
+                view.SortDescriptions.Clear();
+                view.SortDescriptions.Add(new SortDescription("IsOpen", ListSortDirection.Descending));
+                view.SortDescriptions.Add(new SortDescription("RawDateStart", ListSortDirection.Descending));
+                view.Refresh();
+
+                // Визуально ставим стрелку на колонке
+                foreach (var col in GridSickLeaves.Columns)
+                {
+                    if (col.SortMemberPath == "RawDateStart")
+                    {
+                        col.SortDirection = ListSortDirection.Descending;
+                        break;
+                    }
+                }
             }
         }
 
@@ -116,15 +108,17 @@ namespace Policlinnic.UI.Views.Pages
             if (_allData == null) return;
             var query = _allData.AsEnumerable();
 
+            // 1. Фильтр по специализации
             if (PanelSpecFilter.Visibility == Visibility.Visible && CmbSpec.SelectedIndex > 0)
             {
                 string selectedSpec = CmbSpec.SelectedItem.ToString();
                 query = query.Where(x => x.SpecName == selectedSpec);
             }
 
-            if (CmbStatus.SelectedIndex == 1)
+            // 2. Фильтр по статусу
+            if (CmbStatus.SelectedIndex == 1) // Незакрытые
                 query = query.Where(x => x.IsOpen);
-            else if (CmbStatus.SelectedIndex == 2)
+            else if (CmbStatus.SelectedIndex == 2) // Закрытые
                 query = query.Where(x => !x.IsOpen);
 
             GridSickLeaves.ItemsSource = query.ToList();
@@ -135,24 +129,68 @@ namespace Policlinnic.UI.Views.Pages
             if (_isLoaded)
             {
                 ApplyFilters();
-                // Важно: чтобы при фильтрации не слетала сортировка
-                var view = CollectionViewSource.GetDefaultView(GridSickLeaves.ItemsSource);
-                view.SortDescriptions.Clear();
-                view.SortDescriptions.Add(new SortDescription("IsOpen", ListSortDirection.Descending));
-                view.SortDescriptions.Add(new SortDescription("RawDateStart", ListSortDirection.Descending));
+                ApplySorting(); // Чтобы при фильтрации не слетала сортировка
             }
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Добавить"); }
-        private void BtnEdit_Click(object sender, RoutedEventArgs e) { MessageBox.Show("Редактировать"); }
+        // --- КНОПКИ ---
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            // Теперь SickLeaveWindow доступен напрямую в пространстве Views
+            var win = new SickLeaveWindow();
+            if (win.ShowDialog() == true)
+            {
+                LoadData(); // Метод из прошлого шага для обновления списка
+            }
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedView = (sender as Button)?.DataContext as SickLeaveView;
+            if (selectedView == null) return;
+
+            // Конвертируем View-модель обратно в Entity для передачи в окно
+            var entity = new SickLeave
+            {
+                Id = selectedView.Id,
+                IDPatient = selectedView.IDPatient,
+                IDDoctor = selectedView.IDDoctor,
+                DateStart = selectedView.RawDateStart,
+                DateEnd = selectedView.IsOpen ? null : (DateTime?)DateTime.Parse(selectedView.DateEnd)
+            };
+
+            var win = new SickLeaveWindow(entity);
+            if (win.ShowDialog() == true)
+            {
+                LoadData();
+            }
+        }
+        // Внутри класса SickLeavesPage (в файле Views/Pages/SickLeavesPage.xaml.cs)
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var item = ((FrameworkElement)sender).DataContext as SickLeaveView;
-            if (item != null && MessageBox.Show("Удалить?", "Confirm", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            // Получаем объект из строки, где нажата кнопка
+            var item = (sender as Button)?.DataContext as SickLeaveView;
+            if (item == null) return;
+
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить больничный №{item.Id}?",
+                "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.Yes)
             {
-                _allData.Remove(item);
-                Filters_SelectionChanged(null, null);
+                try
+                {
+                    // Вызываем удаление через сервис
+                    _service.Delete(item.Id, _currentUser);
+
+                    // Обновляем список данных на странице
+                    LoadData();
+                    MessageBox.Show("Запись успешно удалена.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

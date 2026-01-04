@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Policlinnic\Policlinnic.UI\App.xaml
-102120775509
+111861129794
 
-152074311085
+16-1662011731
 226-1924658210
-Views\DictionaryEditWindow.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\Pages\AppointmentsPage.xaml;Views\Pages\DictionariesPage.xaml;Views\Pages\ReportsPage.xaml;Views\Pages\SickLeavesPage.xaml;Views\Pages\StatisticsPage.xaml;Views\Pages\UsersPage.xaml;Views\UserEditWindow.xaml;
+Views\DictionaryEditWindow.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\Pages\AppointmentsPage.xaml;Views\Pages\DictionariesPage.xaml;Views\Pages\ReportsPage.xaml;Views\Pages\SickLeavesPage.xaml;Views\Pages\StatisticsPage.xaml;Views\Pages\UsersPage.xaml;Views\SickLeaveWindow.xaml;Views\UserEditWindow.xaml;
 
-False
+True
 
