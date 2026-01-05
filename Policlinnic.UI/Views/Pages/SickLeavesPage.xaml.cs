@@ -173,7 +173,7 @@ namespace Policlinnic.UI.Views.Pages
             var item = (sender as Button)?.DataContext as SickLeaveView;
             if (item == null) return;
 
-            var result = MessageBox.Show($"Вы уверены, что хотите удалить больничный №{item.Id}?",
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить больничный?",
                 "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
